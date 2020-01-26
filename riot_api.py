@@ -55,28 +55,3 @@ def get_ranked_info_summoner(account_id, api_key):
         league_queues.append(queue_dict)
 
     return league_queues
-
-
-# testing calls 
-
-update_account_secure_info("Whitecolt", account_info, "RGAPI-23193195-b75a-4e1e-9927-3db2532ba65a")
-rakend_queues = get_ranked_info_summoner(account_info["id"], "RGAPI-23193195-b75a-4e1e-9927-3db2532ba65a")
-
-# print(account_info)
-# print(rakend_queues)
-
-print("Summoner Name: {}".format(account_info["name"]))
-print("Summoner Level: {}".format(account_info["summoner_level"]))
-print("Total Champions with Mastery: {}".format(get_mastered_champions_summoner(account_info["id"], "RGAPI-23193195-b75a-4e1e-9927-3db2532ba65a")))
-for league in rakend_queues:
-    print("Queue Type: {}".format(league["queue_type"]))
-    print("     Tier: {}".format(league["tier"]))
-    print("     Rank: {}".format(league["rank"]))
-    print("     Total Matches: {}".format(league["total_matches"]))
-    print("     Wins: {}".format(league["wins"]))
-    print("     Loses: {}".format(league["loses"]))
-    print("     Win Rate: {}".format(league["win_rate"]))
-    print("     PDL: {}".format(league["pdl"]))
-
-    print("----------------------------------")
-print("\nLast Update: {}".format(account_info["revision"]))
