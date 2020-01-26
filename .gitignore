@@ -102,3 +102,4 @@ ENV/
 
 #vscode
 .vscode/
+configuration.py
