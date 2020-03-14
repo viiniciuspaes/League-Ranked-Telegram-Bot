@@ -1,15 +1,16 @@
 import requests
 import constants as con
 
-account_info = {
+
+def update_account_secure_info(sumoner_name):
+
+    account_info = {
         "name": "",
         "summoner_level": "",
         "revision": "",
         "account_id": "",
         "puuid": ""
     }
-
-def update_account_secure_info(sumoner_name, account_info):
     
     account_request = con.account_request + "{}?api_key={}".format(sumoner_name, con.api_key)
 
