@@ -74,6 +74,11 @@ def ranked_lol_info(updater,  context):
         account = riot_api.update_account_secure_info(context.args[0])
         ranked_queue = riot_api.get_ranked_lol_info(account["id"])
 
+        if not ranked_queue:
+                msg = "The summoner has not played any games this season"
+
+                updater.message.reply_text(msg)
+
         for league in ranked_queue:
             msg = ""
             msg +="Queue Type: {}\n".format(league["queue_type"])
@@ -94,17 +99,23 @@ def ranked_tft_info(updater, context):
     try:
         account = riot_api.update_account_secure_info(context.args[0])
         league = riot_api.get_ranked_tft_info(account["id"])
-        msg = ""
-        msg +="Queue Type: {}\n".format(league["queue_type"])
-        msg +="     Tier: {}\n".format(league["tier"])
-        msg +="     Rank: {}\n".format(league["rank"])
-        msg +="     Total Matches: {}\n".format(league["total_matches"])
-        msg +="     1st places: {}\n".format(league["wins"])
-        msg +="     Loses: {}\n".format(league["loses"])
-        msg +="     Win Rate: {}\n".format(league["win_rate"])
-        msg +="     PDL: {}\n".format(league["pdl"])
 
-        updater.message.reply_text(msg)
+        if not league:
+                msg = "The summoner has not played any games this season"
+                
+                updater.message.reply_text(msg)
+        else:
+            msg = ""
+            msg +="Queue Type: {}\n".format(league["queue_type"])
+            msg +="     Tier: {}\n".format(league["tier"])
+            msg +="     Rank: {}\n".format(league["rank"])
+            msg +="     Total Matches: {}\n".format(league["total_matches"])
+            msg +="     1st places: {}\n".format(league["wins"])
+            msg +="     Loses: {}\n".format(league["loses"])
+            msg +="     Win Rate: {}\n".format(league["win_rate"])
+            msg +="     PDL: {}\n".format(league["pdl"])
+
+            updater.message.reply_text(msg)
     except KeyError:
         updater.message.reply_text("ERROR: Invalid Summoner")
 
