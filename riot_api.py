@@ -8,7 +8,7 @@ def update_account_secure_info(sumoner_name):
         "name": "",
         "summoner_level": "",
         "revision": "",
-        "account_id": "",
+        "id": "",
         "puuid": ""
     }
     
@@ -91,3 +91,4 @@ def get_ranked_tft_info(account_id):
 
     return league_queues[0]
 
+#TODO: get league name for ranked queues
