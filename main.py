@@ -10,13 +10,15 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+__version__ = "1.0"
+
 def help_msg(updater, context):
     msg = "Hi Summoner! Some usefull information on how to talk to me\n"\
         "/start to know more about me\n"\
         "/summoner <Summoner Name> to get account info\n"\
         "/Mastery <Summoner Name> to know How many champions you have mastery\n"\
         "/lol <Summoner Name> to get some of your League of legends ranked stats\n"\
-        "/tft <Summoner Name> to get some of your Teamfight Tactics ranked stats"
+        "/tft <Summoner Name> to get some of your Teamfight Tactics ranked stats(Not yet available)"
     updater.message.reply_text(msg)
 
 def start_msg(updater, conxtext):
@@ -24,8 +26,9 @@ def start_msg(updater, conxtext):
         "League ranked info, I`m a bot that allows you to check "\
         "some basic ranked info from Riot runneterra based games: \n"\
         "\n- League of Legends"\
-        "\n- Teamfight Tactics"\
-        "\n- Legends of Runeterra(Comming soon)\n"\
+        "\n- Teamfight Tactics(Comming soon)"\
+        "\n- Legends of Runeterra(Comming soon)"\
+        "\n- Valorant(Comming soon)"\
         "\n- You will be able to verify: "\
         "\n- wins"\
         "\n- Looses"\
@@ -34,8 +37,9 @@ def start_msg(updater, conxtext):
         "\n- Rank"\
         "\n- PDL"\
         "\n- Total valid matches"\
-        "\n\nAll of this with a simple chat message.\n"\
-        "\nI was created by Vinicius \"Torack\" Paes,"\
+        "\n\nAll of this with a simple chat message. Talk to me\n"\
+        f"\nVersion: {__version__}\n"\
+        "\nI was created by Vinicius \"Torack\" Paes, "\
         "as a open source project."\
         "\nCheck on:\n https://github.com/viiniciuspaes/League-Ranked-Telegram-Bot"
 
@@ -44,7 +48,7 @@ def start_msg(updater, conxtext):
 
 def update_user(updater, context):
     try:
-        account_info = riot_api.update_account_secure_info(context.args[0])
+        account_info = riot_api.update_account_secure_info("".join(context.args))
         msg = "Summoner Name: {}\n"\
             "Summoner Level: {}\n"\
             "Last Update: {}\n"\
@@ -60,7 +64,7 @@ def update_user(updater, context):
    
 def mastered_champions(updater, context):
     try:
-        account = riot_api.update_account_secure_info(context.args[0])
+        account = riot_api.update_account_secure_info("".join(context.args))
         number = riot_api.get_mastered_lol_champions(account["id"])
         updater.message.reply_text("Account {} has {} mastered champions"\
         .format(account["name"], number))
@@ -71,11 +75,11 @@ def mastered_champions(updater, context):
 
 def ranked_lol_info(updater,  context):
     try:
-        account = riot_api.update_account_secure_info(context.args[0])
+        account = riot_api.update_account_secure_info("".join(context.args))
         ranked_queue = riot_api.get_ranked_lol_info(account["id"])
 
         if not ranked_queue:
-                msg = "The summoner has not played any games this season"
+                msg = "The summoner has not played any ranked games this season"
 
                 updater.message.reply_text(msg)
 
@@ -97,14 +101,15 @@ def ranked_lol_info(updater,  context):
 
 def ranked_tft_info(updater, context):
     try:
-        account = riot_api.update_account_secure_info(context.args[0])
+        account = riot_api.update_account_secure_info("".join(context.args))
         league = riot_api.get_ranked_tft_info(account["id"])
 
         if not league:
-                msg = "The summoner has not played any games this season"
+                msg = "The summoner has not played any ranked tft games this season"
                 
                 updater.message.reply_text(msg)
         else:
+            league = league[0]
             msg = ""
             msg +="Queue Type: {}\n".format(league["queue_type"])
             msg +="     Tier: {}\n".format(league["tier"])
@@ -118,7 +123,10 @@ def ranked_tft_info(updater, context):
             updater.message.reply_text(msg)
     except KeyError:
         updater.message.reply_text("ERROR: Invalid Summoner")
-
+     
+    except Exception:
+        updater.message.reply_text("Feature not yet available")
+    
 
 def error(update, context):
     """Log Errors caused by Updates."""

@@ -72,6 +72,9 @@ def get_ranked_tft_info(account_id):
     if resp_league.status_code == 400:
         return Exception("Error response code: {}".format(resp_league.status_code))
     
+    if resp_league.status_code == 403:
+        return Exception("Feature not yet available")
+    
     league_queues = []
     
     resp_league = resp_league.json()
@@ -89,6 +92,4 @@ def get_ranked_tft_info(account_id):
         queue_dict["win_rate"] = str(int((int(league["wins"]) / int(queue_dict["total_matches"]))*100)) + "%"
         league_queues.append(queue_dict)
 
-    return league_queues[0]
-
-#TODO: get league name for ranked queues
+    return league_queues
