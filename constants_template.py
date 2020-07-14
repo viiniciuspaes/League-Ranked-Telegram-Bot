@@ -1,5 +1,8 @@
-api_key = "<insert API key>"
-bot_token = "<insert telegram token>"
+import os
+
+
+api_key = os.environ["API_KEY"]  # <insert API key>"
+bot_token = os.environ["BOT_TOKEN"] #"<insert telegram token>"
 
 
 account_request = "https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"

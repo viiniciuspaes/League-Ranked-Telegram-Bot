@@ -35,7 +35,7 @@ def start_msg(updater, conxtext):
         "\n- PDL"\
         "\n- Total valid matches"\
         "\n\nAll of this with a simple chat message.\n"\
-        "\nI was created by Vinicius \"Torack\" Paes,"\
+        "\nI was created by Vinicius \"Torack\" Paes, "\
         "as a open source project."\
         "\nCheck on:\n https://github.com/viiniciuspaes/League-Ranked-Telegram-Bot"
 
